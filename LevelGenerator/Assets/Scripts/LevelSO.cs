@@ -36,6 +36,12 @@ namespace game.levelGeneration
         [SerializeField]
         [Range(0, 100)]
         private int _minPathLength = 0;
+        [SerializeField]
+        [Range(0, 10)]
+        private int _minCurveCount = 0;
+        [SerializeField]
+        [Range(0, 10)]
+        private int _maxCurveCount = 3;
 
         [Header("Prefabs")]
 
@@ -54,5 +60,7 @@ namespace game.levelGeneration
         public GameObject FloorPrefab { get => _floorPrefab; set => _floorPrefab = value; }
         public GameObject WallPrefab { get => _wallPrefab; set => _wallPrefab = value; }
         public int WallsHeight { get => _wallsHeight; set => _wallsHeight = value; }
+        public int MinCurveCount { get => _minCurveCount; set => _minCurveCount = value; }
+        public int MaxCurveCount { get => _maxCurveCount; set => _maxCurveCount = value; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace game.levelGeneration
@@ -20,14 +21,18 @@ namespace game.levelGeneration
         private int _wallsHeight = 3;
         private int _maxPathLength = 0;
         private int _minPathLength = 0;
+        private int _minCurveCount = 0;
+        private int _maxCurveCount = 3;
         private GameObject _floorPrefab = null;
         private GameObject _wallPrefab = null;
 
         private int _currentNumberOfRooms = 0;
+        private Vector2 _currentFlorPosition;
         private GameObject _levelGO;
         private GameObject _pathGO;
         private List<Vector2> _emptyPathClosings;
         private List<Vector2> _takenPositions;
+        private List<int> _currentRoomCurvesIndexes;
 
         private void Awake()
         {
@@ -35,6 +40,7 @@ namespace game.levelGeneration
             _emptyPathClosings = new List<Vector2>();
             _takenPositions = new List<Vector2>();
             _emptyPathClosings.Add(new Vector2(0, 0));
+            _currentFlorPosition = new Vector2();
         }
 
         private void Start()
@@ -95,25 +101,50 @@ namespace game.levelGeneration
                 if (_currentNumberOfRooms < _numberOfRooms)
                 {
                     Vector2 pathClosingPosition = new Vector2();
-                    for (int j = 0; j < _maxPathLength; j++)
+                    int numberOfCurves = UnityEngine.Random.Range(_minCurveCount, _maxCurveCount + 1);
+                    int pathLength = UnityEngine.Random.Range(_minPathLength, _maxPathLength + 1);
+                    _currentRoomCurvesIndexes = new List<int>();
+                    for (int k = 0; k < numberOfCurves; k++)
                     {
+                        int curveIndex = UnityEngine.Random.Range(1, pathLength);
+                        _currentRoomCurvesIndexes.Add(curveIndex);
+                    }
+                    _currentRoomCurvesIndexes = _currentRoomCurvesIndexes.Distinct().ToList();
+                    for (int j = 0; j < pathLength; j++)
+                    {
+                        foreach(int curveIndex in _currentRoomCurvesIndexes)
+                        {
+                            if(j == curveIndex)
+                            {
+                                //change path
+                                if (room.DoorPositionTypes[i] == DoorPosition.Top || room.DoorPositionTypes[i] == DoorPosition.Bottom)
+                                {
+                                    room.DoorPositionTypes[i] = UnityEngine.Random.Range(0, 2)  == 0 ? DoorPosition.Right : DoorPosition.Left;
+                                }
+                                else
+                                {
+                                    room.DoorPositionTypes[i] = UnityEngine.Random.Range(0, 2) == 0 ? DoorPosition.Top : DoorPosition.Bottom;
+                                }
+                            }
+                        }
                         Vector2 spawnPosition = new Vector2();
                         switch (room.DoorPositionTypes[i])
                         {
                             case (DoorPosition.Top):
-                                spawnPosition = new Vector2(room.DoorPositions[i].x, room.DoorPositions[i].y + j);                               
+                                spawnPosition = new Vector2(_currentFlorPosition.x, _currentFlorPosition.y + 1);                               
                                 break;
                             case (DoorPosition.Right):
-                                spawnPosition = new Vector2(room.DoorPositions[i].x + j, room.DoorPositions[i].y);
+                                spawnPosition = new Vector2(_currentFlorPosition.x + 1, _currentFlorPosition.y);
                                 break;
                             case (DoorPosition.Bottom):
-                                spawnPosition = new Vector2(room.DoorPositions[i].x, room.DoorPositions[i].y - j);
+                                spawnPosition = new Vector2(_currentFlorPosition.x, _currentFlorPosition.y - 1);
                                 break;
                             case (DoorPosition.Left):
-                                spawnPosition = new Vector2((int)room.DoorPositions[i].x - j, (int)room.DoorPositions[i].y);
+                                spawnPosition = new Vector2(_currentFlorPosition.x - 1, _currentFlorPosition.y);
                                 break;
                         }
                         pathClosingPosition = spawnPosition;
+                        _currentFlorPosition = spawnPosition;
                         SpawnSingleFloorTile((int)spawnPosition.x, (int)spawnPosition.y, _pathGO.transform, "PathFloor");
                     }
                     _emptyPathClosings.Add(pathClosingPosition);
@@ -142,6 +173,8 @@ namespace game.levelGeneration
             _minPathLength = _levelSO.MinPathLength;
             _floorPrefab = _levelSO.FloorPrefab;
             _wallPrefab = _levelSO.WallPrefab;
+            _minCurveCount = _levelSO.MinCurveCount;
+            _maxCurveCount = _levelSO.MaxCurveCount;
         }
     }
 
