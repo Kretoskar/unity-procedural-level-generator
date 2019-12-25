@@ -30,6 +30,7 @@ namespace game.levelGeneration
         private Vector2 _currentFlorPosition;
         private GameObject _levelGO;
         private GameObject _pathGO;
+        private GameObject _wallsGO;
         private List<Vector2> _emptyPathClosings;
         private List<Vector2> _takenPositions;
         private List<int> _currentRoomCurvesIndexes;
@@ -54,6 +55,8 @@ namespace game.levelGeneration
             _levelGO.transform.parent = transform;
             _pathGO = new GameObject("Path");
             _pathGO.transform.parent = _levelGO.transform;
+            _wallsGO = new GameObject("Walls");
+            _wallsGO.transform.parent = _levelGO.transform;
             do
             {
                 for (int j = 0; j < _emptyPathClosings.Count; j++)
@@ -86,10 +89,20 @@ namespace game.levelGeneration
                     {
                         for (int i = 0; i < _wallsHeight; i++)
                         {
-                            Instantiate(_wallPrefab, new Vector3(neighbourPosition.x, neighbourPosition.y, -i), Quaternion.identity);
+                            SpawnWall(new Vector3(neighbourPosition.x, neighbourPosition.y, -i));
                         }
                     }
                 }
+            }
+        }
+
+        private void SpawnWall(Vector3 pos)
+        {
+            for (int i = 0; i < _wallsHeight; i++)
+            {
+                GameObject wall = Instantiate(_wallPrefab, pos, Quaternion.identity);
+                wall.name = "Wall";
+                wall.transform.parent = _wallsGO.transform;
             }
         }
 
