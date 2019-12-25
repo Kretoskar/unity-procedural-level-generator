@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4316696204008c74b8b355535b5ea9db, type: 3}
   m_Name: Level
   m_EditorClassIdentifier: 
-  _numberOfRooms: 10
+  _numberOfRooms: 50
   _maxRoomHeight: 10
   _maxRoomWidht: 10
   _minRoomHeight: 5
   _minRoomWidth: 5
-  _wallsHeight: 3
+  _wallsHeight: 2
   _maxPathLength: 30
   _minPathLength: 20
   _minCurveCount: 2

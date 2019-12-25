@@ -61,6 +61,36 @@ namespace game.levelGeneration
                     SpawnRoom(_emptyPathClosings[j]);
                 }
             } while (_currentNumberOfRooms < _numberOfRooms);
+            SpawnWalls();
+        }
+
+        private void SpawnWalls()
+        {
+            //Check if it's a horizontal path, vertical path, or a corner
+            foreach (var takenPosition in _takenPositions)
+            {
+                int x = (int)takenPosition.x;
+                int y = (int)takenPosition.y;
+                List<Vector2> neighbourPositions = new List<Vector2>();
+                for(int i = 0; i < 3; i ++)
+                {
+                    for(int j = 0; j < 3; j++)
+                    {
+                        if (i == 1 && j == 1)
+                            continue;
+                        neighbourPositions.Add(new Vector2(x - 1 + i, y - 1 + j));
+                    }
+                }
+                foreach (var neighbourPosition in neighbourPositions) {
+                    if (!_takenPositions.Contains(neighbourPosition))
+                    {
+                        for (int i = 0; i < _wallsHeight; i++)
+                        {
+                            Instantiate(_wallPrefab, new Vector3(neighbourPosition.x, neighbourPosition.y, -i), Quaternion.identity);
+                        }
+                    }
+                }
+            }
         }
 
         private void SpawnRoom(Vector2 spawnPosition)
