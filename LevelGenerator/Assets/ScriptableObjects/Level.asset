@@ -18,8 +18,8 @@ MonoBehaviour:
   _minRoomHeight: 5
   _minRoomWidth: 5
   _wallsHeight: 3
-  _maxPathLength: 10
-  _minPathLength: 5
+  _maxPathLength: 50
+  _minPathLength: 20
   _floorPrefab: {fileID: 3061061065077086205, guid: bea6d270b1e45604c89e861002bd43e8,
     type: 3}
   _wallPrefab: {fileID: 5708579070202741436, guid: 0ae37e65c7fc8c24bba3f60e779f13c2,
