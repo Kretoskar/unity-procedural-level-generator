@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4316696204008c74b8b355535b5ea9db, type: 3}
+  m_Name: Level
+  m_EditorClassIdentifier: 
+  _numberOfRooms: 5
+  _maxRoomHeight: 10
+  _maxRoomWidht: 10
+  _minRoomHeight: 5
+  _minRoomWidth: 5
+  _wallsHeight: 3
+  _maxPathLength: 10
+  _minPathLength: 5
+  _floorPrefab: {fileID: 3061061065077086205, guid: bea6d270b1e45604c89e861002bd43e8,
+    type: 3}
+  _wallPrefab: {fileID: 5708579070202741436, guid: 0ae37e65c7fc8c24bba3f60e779f13c2,
+    type: 3}
