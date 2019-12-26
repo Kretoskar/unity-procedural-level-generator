@@ -6,6 +6,9 @@ using UnityEngine;
 
 namespace game.levelGeneration
 {
+    /// <summary>
+    /// Represents properties of a single room
+    /// </summary>
     public class Room
     {
         private int _roomHeight;
@@ -27,6 +30,9 @@ namespace game.levelGeneration
         public List<Vector2> DoorPositions { get => _doorPositions; set => _doorPositions = value; }
         public List<DoorPosition> DoorPositionTypes { get => _doorPositionTypes; set => _doorPositionTypes = value; }
 
+        /// <summary>
+        /// Calculate randomly generated door positions to a DoorPositions list
+        /// </summary>
         private void GenerateDoors()
         {
             foreach(var doorPosition in DoorPositionTypes)
